@@ -9,6 +9,22 @@
 <body>
     <div class="container">
         <h1>Stretch / Plank Hold Timers</h1>
+        <div>
+            <input type="checkbox" id="audioToggle" name="audioToggle" checked />
+            <label for="audioToggle">Audio</label>
+          </div>
+          <fieldset id="audioField">
+            <legend>Select Audio</legend>
+            <div id="audioOptions">
+            <input type="radio" id="chimes" name="audioOpts" value="assets/chimes-sound.mp3" checked />
+            <label for="chimes">Chimes</label>
+            <input type="radio" id="drums" name="audioOpts" value="assets/drum-sound.mp3" />
+            <label for="chimes">Drums</label>
+            <input type="radio" id="ducks" name="audioOpts" value="assets/duck-sound.mp3" />
+            <label for="chimes">Ducks</label>
+            </div>
+        </fieldset>
+      
         <h2 id="output">Choose a Duration</h3>
         <div class="mainButtons">
         <div class="column1">
