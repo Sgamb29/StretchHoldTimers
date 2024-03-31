@@ -36,3 +36,26 @@ button {
     padding: 10px;
     background-color: cadetblue;
 }
+
+.nav {
+    margin-bottom: 12px;
+}
+
+.navButtons {
+    display: flex;
+    flex-direction: row;
+}
+
+.moveButtons {
+    font-size: large;
+    margin: 5px;
+    
+}
+
+.audioCheck {
+    margin-bottom: 10px;
+}
+
+#lengthChoice {
+    margin-bottom: 10px;
+}

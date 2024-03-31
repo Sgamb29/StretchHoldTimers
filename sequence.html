@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stretch Sequence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>8 Minute Stretching Sequence</h1>
+        <a class="nav" href="index.html">Back to Stretch Timers</a>
+        <div class="audioCheck">
+            <input type="checkbox" id="audioToggle" name="audioToggle" checked />
+            <label for="audioToggle">Audio</label>
+          </div>
+
+          <fieldset id="lengthChoice">
+            <legend>Select Sequence Length</legend>
+            <div id="lengthOptions">
+            <input type="radio" id="fourMinute" name="lengthOpts" value="4" checked />
+            <label for="fourMinute">Four Minutes</label>
+            <input type="radio" id="eightMinute" name="lengthOpts" value="8" />
+            <label for="eightMinute">Eight Minutes</label>
+            </div>
+        </fieldset>
+
+        <div>
+           
+            </div>
+      
+        <button id="autoPlayStartButton" onclick="autoplaySequence(0)" >Start Autoplay</button>
+        
+        <h2 id="output">Forward Fold 60 Seconds</h2>
+        <img src="./assets/photos/pexels-elina-fairytale-3822191.jpg" id="mainImage" />
+
+        <p id="photographer"></p>
+        <a href="https://www.pexels.com">Photos provided by Pexels</a>
+
+        <p>Note: For the audio to work your browser must have audio permissions enabled.</p>
+    </div>
+
+
+    <script type="text/javascript" src="script2.js"></script>
+</body>
+</html>
