@@ -31,61 +31,61 @@ async function autoplaySequence(index) {
     const sequence = [
         {
             "img": "assets/photos/pexels-elina-fairytale-3822191.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Seated Forward Fold 60 Seconds",
             "by": "Photo by Elina Fairytale",
         },
         {
             "img": "assets/photos/pexels-miriam-alonso-7592479.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Butterfly Pose 60 Seconds",
             "by": "Photo by Miriam Alonso",
         },
         {
             "img": "assets/photos/pexels-ketut-subiyanto-4436298.jpg",
-            "time": 5,
+            "time": 30,
             "text": "One-Leg Forward Bend Left 30 Seconds",
             "by": "Photo by Ketut Subiyanto"
         },
         {
             "img": "assets/photos/pexels-ketut-subiyanto-4436298.jpg",
-            "time": 5,
+            "time": 30,
             "text": "SWITCH! One-Leg Forward Bend Right 30 Seconds",
             "by": "Photo by Ketut Subiyanto",
         },
         {
             "img": "assets/photos/pexels-vlada-karpovich-4534689.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Downward Dog 60 Seconds",
             "by": "Photo by Vlada Karpovich",
         },
         {
             "img": "assets/photos/pexels-marta-wave-6453939.jpg",
-            "time": 5,
+            "time": 30,
             "text": "Low Lunge 30 Seconds",
             "by": "Photo by Marta Wave",
         },
         {
             "img": "assets/photos/pexels-marta-wave-6453939.jpg",
-            "time": 5,
+            "time": 30,
             "text": "SWITCH! Low Lunge, Other leg, 30 Seconds",
             "by": "Photo by Marta Wave",
         },
         {
             "img": "assets/photos/pexels-elina-fairytale-3822088.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Standing Forward Fold 60 Seconds",
             "by": "Photo by Elina Fairytale",
         },
         {
             "img": "assets/photos/pexels-rfstudio-3820430.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Reach for the Sky 60 seconds",
             "by": "Photo by RF Studio",
         },
         {
             "img": "assets/photos/pexels-marta-wave-6454068.jpg",
-            "time": 10,
+            "time": 60,
             "text": "Wide Legged Forward Fold 60 seconds",
             "by": "Photo by Marta Wave",
         },
@@ -118,7 +118,7 @@ async function autoplaySequence(index) {
         console.log(accumulatedTime);
 
         index += 1;
-        if (index < sequence.length & accumulatedTime < currentLength * 10) {
+        if (index < sequence.length & accumulatedTime < currentLength * 60) {
             let currentTime = sequence[index]["time"];
             checkTimeDifference(intervalId, lastTime, currentTime, index);
 
