@@ -26,8 +26,20 @@ audioToggle.addEventListener("click", (e) => {
     optionsDiv.hidden = !optionsDiv.hidden;
 })
 
+let colorChangeEnabled = true;
+
+document.getElementById("colorChangeToggle").addEventListener("click", () => {
+    colorChangeEnabled = !colorChangeEnabled;
+    if (!colorChangeEnabled) {
+        document.getElementById("container").style.backgroundColor = "lightgray";
+    }
+});
+
 async function startTimer(sec) {
     let output = document.getElementById("output");
+    if (colorChangeEnabled) {
+        document.getElementById("container").style.backgroundColor = "pink";
+    }
     if (firstPress) {
         firstPress = false;
         let minorsec = sec > 60 ? "Minute" : "Second";
@@ -40,6 +52,10 @@ async function startTimer(sec) {
                 let player = new Audio(currentAudio);
                 player.play()
             }
+
+            if (colorChangeEnabled) {
+                document.getElementById("container").style.backgroundColor = "lightgreen";
+            }
         }, sec * 1000);
     }
 }
@@ -48,78 +64,14 @@ function refresh() {
     window.location.reload();
 }
 
+let extraTimersToggle = document.getElementById("extraTimersToggle");
 
-
-
-// async function autoplaySequence(index) {
-//     let mainImage = document.getElementById("mainImage");
-//     let output = document.getElementById("output");
-//     let btn = document.getElementById("autoPlayStartButton");
-
-//     btn.disabled = true;
-//     const sequence = [
-//         {
-//             "img": "assets/photos/pexels-elina-fairytale-3822191.jpg",
-//             "time": 10,
-//             "text": "Seated Forward Fold 60 Seconds"
-//         },
-//         {
-//             "img": "assets/photos/pexels-miriam-alonso-7592479.jpg",
-//             "time": 10,
-//             "text": "Butterfly Pose 60 Seconds"
-//         },
-//         {
-//             "img": "assets/photos/pexels-ketut-subiyanto-4436298.jpg",
-//             "time": 5,
-//             "text": "One-Leg Forward Bend Left 30 Seconds",
-//         },
-//         {
-//             "img": "assets/photos/pexels-ketut-subiyanto-4436298.jpg",
-//             "time": 5,
-//             "text": "SWITCH! One-Leg Forward Bend Right 30 Seconds",
-//         },
-//     ];
-
-//     btn.innerText = "Autoplay Started"
-//     mainImage.src = sequence[index]["img"];
-//     output.innerText = sequence[index]["text"];
-//     let lastTime = sequence[index]["time"];
-
-
-//     let intervalId = setInterval(() => {
-//         if (audioEnabled) {
-//             let player = new Audio("assets/drum-sound.mp3");
-//             player.play()
-//         }
-//         index += 1;
-//         if (index < sequence.length) {
-//             let currentTime = sequence[index]["time"];
-//             checkTimeDifference(intervalId, lastTime, currentTime, index);
-
-//         } else {
-//             output.innerText = "Sequence Finished!";
-//             btn.innerText = "Start Autoplay";
-//             index = 0;
-//             clearInterval(intervalId);
-//             btn.disabled = false;
-//             return;
-//         }
-//         mainImage.src = sequence[index]["img"];
-//         output.innerText = sequence[index]["text"];
-
-//         lastTime = sequence[index]["time"];
+extraTimersToggle.addEventListener("click", () => {
+        const els = document.getElementsByClassName("extraTimer");
+        for (let i = 0; i < els.length; i++) {
+            els[i].hidden = !els[i].hidden;
+        }
         
-        
-//     }, sequence[index]["time"] * 1000);
+    
+})
 
-
-        
-// }
-
-// function checkTimeDifference(iid, lastTime, currentTime, index) {
-//     if (lastTime != currentTime) {
-//         clearInterval(iid);
-//         autoplaySequence(index);
-
-//     }
-// }
