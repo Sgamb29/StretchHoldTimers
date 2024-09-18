@@ -31,7 +31,7 @@ let colorChangeEnabled = true;
 document.getElementById("colorChangeToggle").addEventListener("click", () => {
     colorChangeEnabled = !colorChangeEnabled;
     if (!colorChangeEnabled) {
-        document.getElementById("container").style.backgroundColor = "lightgray";
+        document.getElementById("container").style.background = "linear-gradient(45deg, gray, white, gray)";
     }
 });
 
@@ -46,7 +46,7 @@ let timeoutId = null;
 async function startTimer(sec) {
     let output = document.getElementById("output");
     if (colorChangeEnabled) {
-        document.getElementById("container").style.backgroundColor = "pink";
+        document.getElementById("container").style.background = "linear-gradient(90deg, pink, white, pink)";
     }
     if (firstPress) {
         firstPress = false;
@@ -72,12 +72,12 @@ async function startTimer(sec) {
             output.innerText = "Release.";
             firstPress = true;
             if (audioEnabled) {
-
+                audio.src = currentAudio;
                 audio.play();
             }
 
             if (colorChangeEnabled) {
-                document.getElementById("container").style.backgroundColor = "lightgreen";
+                document.getElementById("container").style.background = "linear-gradient(45deg, green, white, green)";
             }
 
             clearInterval(countdownInterval);

@@ -1,9 +1,16 @@
 
-body {
-    background-color: lightgray;
+html, body {
+    height: 100%;
+    margin: 0px;
+
+
 }
 
+
 .container {
+    min-height: 100%;
+    background: linear-gradient(45deg, gray, white, gray);
+
     display: flex;
     flex-direction: column;
     align-items: center;
