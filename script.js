@@ -123,27 +123,14 @@ let isSupported = false;
 let wakeLock = null;
 const wakeLabel = document.getElementById("wakeLabel");
 
-// For ios
-let wakeError = false;
-document.addEventListener("click", async () => {
-    try {
-        wakeLock = await navigator.wakeLock.request("screen");
-    } catch (err) {
-        wakeError = true;
-        console.log(`${err.name}, ${err.message}`);
-    }
-   
-});
-//
+
 screenWake.addEventListener("click", async () =>{
     if (screenWake.checked) {
-        if ("wakeLock" in navigator & !wakeError) {
+        if ("wakeLock" in navigator) {
             isSupported = true;
 
-            try {
-                if (wakeLock === null) {
-                    wakeLock = await navigator.wakeLock.request("screen");
-                }              
+            try { 
+                wakeLock = await navigator.wakeLock.request("screen");           
                 wakeLabel.innerText = "Wake Lock is active!";
               } catch (err) {
                 console.log(`${err.name}, ${err.message}`);
