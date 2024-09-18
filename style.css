@@ -28,6 +28,7 @@ body {
 h1, h2 {
     text-decoration: underline;
     font-weight: lighter;
+    text-align: center;
 }
 
 button {
@@ -60,3 +61,11 @@ button {
     margin-bottom: 10px;
 }
 
+
+#screenWake {
+    margin-top: 8px;
+}
+
+.countdownOutput {
+    font-size: larger;
+}

@@ -9,7 +9,6 @@
 <body>
     <div id="container" class="container">
         <h1>Stretch / Plank Hold Timers</h1>
-        <a class="nav" href="sequence.html">Stretching Sequence</a>
         <div>
             <input type="checkbox" id="audioToggle" name="audioToggle" checked />
             <label for="audioToggle">Audio</label>
@@ -29,8 +28,11 @@
             <label for="chimes">Ducks</label>
             </div>
         </fieldset>
+        <input type="checkbox" name="screenWake" id="screenWake">
+        <label id="wakeLabel" for="screenWake">Keep Screen Awake</label>
       
         <h2 id="output">Choose a Duration</h2>
+        <p class="countdownOutput" id="countdownOutput"></p>
         <div class="mainButtons">
         <div class="column1">
         <button class="timer" onclick="startTimer(20)">20 <br>Seconds</button>
@@ -45,7 +47,7 @@
         <button class="timer" onclick="startTimer(300)">5 <br>Minutes</button>
     </div>
 </div>
-        <button onclick="refresh()">Reset</button>
+        <button onclick="stopAndReset()">Reset</button>
 
         <p>Note: For the audio to work your browser must have audio permissions enabled.</p>
 
