@@ -6,6 +6,9 @@ html, body {
 
 }
 
+a {
+    margin-bottom: 10px;
+}
 
 .container {
     min-height: 100%;
