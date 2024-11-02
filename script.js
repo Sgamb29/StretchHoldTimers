@@ -70,6 +70,7 @@ async function startTimer(sec) {
 
         timeoutId = setTimeout(() => {
             output.innerText = "Release.";
+            countdownOutput.innerText = "0";
             firstPress = true;
             if (audioEnabled) {
                 audio.src = currentAudio;
