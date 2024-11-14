@@ -20,7 +20,7 @@
     <div id="container" class="container">
         <h1>Stretch Hold Timers</h1>
         <a href="about.html">About Page</a>
-        <div>
+        <div class="toggleButtons">
             <input type="checkbox" id="audioToggle" name="audioToggle" checked />
             <label for="audioToggle">Audio</label>
             <input type="checkbox" id="extraTimersToggle" name="extraTimersToggle" />
@@ -31,7 +31,7 @@
           <fieldset id="audioField">
             <legend>Select Audio</legend>
             <div id="audioOptions">
-            <input type="radio" id="chimes" name="audioOpts" value="assets/timer-simple4.mp3" checked />
+            <input type="radio" id="chimes" name="audioOpts" value="assets/timer-simple-keys2.mp3" checked />
             <label for="chimes">Simple</label>
             <input type="radio" id="drums" name="audioOpts" value="assets/drum-sound.mp3" />
             <label for="chimes">Drums</label>
@@ -60,7 +60,7 @@
 </div>
         <button onclick="stopAndReset()">Reset</button>
 
-        <p>Note: For the audio to work your browser must have audio permissions enabled.</p>
+        <p><em>Usage Tip: If wake lock isn't supported go into your phone settings and increase the time before your screen automatically sleeps.</em></p>
 
     </div>
 

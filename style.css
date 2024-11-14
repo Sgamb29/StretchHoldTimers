@@ -2,8 +2,7 @@
 html, body {
     height: 100%;
     margin: 0px;
-
-
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 
@@ -48,7 +47,10 @@ button {
     font-size: xx-large;
     margin-bottom: 30px;
     padding: 10px;
-    background-color: cadetblue;
+    background-color: darkslategrey;
+    color: lightblue;
+    border: 1px solid black;
+    border-radius: 15%;
 }
 
 .nav {
@@ -81,4 +83,10 @@ button {
 
 .countdownOutput {
     font-size: larger;
+}
+
+.toggleButtons {
+    margin-bottom: 7px;
+    margin-top: 5px;
+    
 }
