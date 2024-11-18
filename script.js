@@ -157,8 +157,16 @@ async function counterCall() {
         method: "POST",
         body: "stretch-hold-timers",
     });
+    try {
+        const response = await fetch(request);
+        if (!response.ok) {
+            throw new Error(`Response Status: ${response.status}`);
 
-    const response = await fetch(request);
+        }
+        
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 counterCall();
