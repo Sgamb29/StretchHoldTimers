@@ -151,22 +151,17 @@ screenWake.addEventListener("click", async () =>{
 })
 
 
-// // Traffic
-// async function counterCall() {
-//     const request = new Request("https://server.sgambapps.com", {
-//         method: "POST",
-//         body: "stretch-hold-timers",
-//     });
-//     try {
-//         const response = await fetch(request);
-//         if (!response.ok) {
-//             throw new Error(`Response Status: ${response.status}`);
+// Traffic
 
-//         }
-        
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
+const request = new Request("https://server.sgambapps.com", {
+    method: "POST",
+    body: "stretch-hold-timers",
+});
+fetch(request)
+.then(res => {
+    if (res.ok) {
+    console.log("visit counted");
+    }
+})
+.catch(err => console.log(err));
 
-// counterCall();
