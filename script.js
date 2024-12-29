@@ -156,9 +156,9 @@ screenWake.addEventListener("click", async () =>{
 const request = new Request("https://server.sgambapps.com", {
     method: "POST",
     headers: {
-        "Content-Type": "text/plain"
+        "Content-Type": "application/json"
     },
-    body: "stretch-hold-timers",
+    body: JSON.stringify({site:"stretch-hold-timers"}),
 });
 fetch(request)
 .then(res => {
