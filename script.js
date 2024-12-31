@@ -152,15 +152,11 @@ screenWake.addEventListener("click", async () =>{
 
 
 // Traffic
-
-const request = new Request("https://server.sgambapps.com", {
+fetch("https://server.sgambapps.com/", {
     method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({site:"stretch-hold-timers"}),
-});
-fetch(request)
+    body: JSON.stringify({ "site": "stretch-hold-timers" }),
+    headers: { "Content-Type": "application/json" }
+})
 .then(res => {
     if (res.ok) {
     console.log("visit counted");
