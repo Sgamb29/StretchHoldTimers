@@ -152,7 +152,7 @@ screenWake.addEventListener("click", async () =>{
 
 
 // Traffic
-fetch("https://server.sgambapps.com/", {
+fetch("https://server.sgambapps.com/?site=stretch-hold-timers", {
     method: "POST",
     body: JSON.stringify({ "site": "stretch-hold-timers" }),
     headers: { "Content-Type": "application/json" }
