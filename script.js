@@ -152,15 +152,12 @@ screenWake.addEventListener("click", async () =>{
 
 
 // Traffic
-fetch("https://server.sgambapps.com/?site=stretch-hold-timers", {
+const request = new Request("https://server.sgambapps.com/?site=stretch-hold-timers", {
     method: "POST",
-    body: JSON.stringify({ "site": "stretch-hold-timers" }),
-    headers: { "Content-Type": "application/json" }
-})
+});
+fetch(request)
 .then(res => {
     if (res.ok) {
     console.log("visit counted");
     }
 })
-.catch(err => console.log(err));
-
