@@ -1,4 +1,3 @@
-
 let firstPress = true;
 let audioToggle = document.getElementById("audioToggle");
 let audioEnabled = true;
@@ -11,6 +10,7 @@ let currentAudio = chimes.value;
 
 let audioOpts = [chimes, ducks, drums];
 
+let timerGoOffTime = 0;
 
 for (opt of audioOpts) {
     opt.addEventListener("click", (e) => {
@@ -19,7 +19,6 @@ for (opt of audioOpts) {
 }
 
 let optionsDiv = document.getElementById("audioField");
-
 
 audioToggle.addEventListener("click", (e) => {
     audioEnabled = audioToggle.checked ? true : false;
@@ -40,7 +39,6 @@ let secondsLeft = 0;
 let countdownInterval = null;
 const countdownOutput = document.getElementById("countdownOutput");
 
-
 let timeoutId = null;
 
 async function startTimer(sec) {
@@ -54,41 +52,41 @@ async function startTimer(sec) {
         let minutes = sec > 60 ? sec / 60 : sec;
         output.innerText = `${minutes} ${minorsec} Timer Started - Hold and Breathe.`;
 
-        // Logic for countdown
-        secondsLeft = sec;
-        countdownOutput.innerText = secondsLeft;
-
-        countdownInterval = setInterval(() => {
-            secondsLeft -= 1;
-            countdownOutput.innerText = secondsLeft;
-        }, 1000);
-
         // Setting up audioElement for ios
         const audio = new Audio();
         audio.src = currentAudio;
-        
 
-        timeoutId = setTimeout(() => {
-            output.innerText = "Release.";
-            countdownOutput.innerText = "0";
-            firstPress = true;
-            if (audioEnabled) {
-                audio.src = currentAudio;
-                audio.play();
+        // Logic for countdown
+        secondsLeft = sec;
+        countdownOutput.innerText = secondsLeft;
+        const currentTime = Date.now();
+        timerGoOffTime = currentTime + sec * 1000;
+
+        countdownInterval = setInterval(() => {
+            const updatedTime = Date.now();
+            secondsLeft = (timerGoOffTime - updatedTime) / 1000;
+            countdownOutput.innerText = secondsLeft.toFixed(0);
+            if (updatedTime >= timerGoOffTime) {
+
+                
+                output.innerText = "Release.";
+                countdownOutput.innerText = "0";
+                firstPress = true;
+                if (audioEnabled) {
+                    audio.src = currentAudio;
+                    audio.play();
+                }
+
+                if (colorChangeEnabled) {
+                    document.getElementById("container").style.background = "linear-gradient(45deg, green, white, green)";
+                }
+
+                clearInterval(countdownInterval);
             }
+        }, 1000);
 
-            if (colorChangeEnabled) {
-                document.getElementById("container").style.background = "linear-gradient(45deg, green, white, green)";
-            }
-
-            clearInterval(countdownInterval);
-        }, sec * 1000);
     }
 }
-
-// function refresh() {
-//     window.location.reload();
-// }
 
 let extraTimersToggle = document.getElementById("extraTimersToggle");
 
@@ -102,7 +100,7 @@ extraTimersToggle.addEventListener("click", () => {
 })
 
 function stopAndReset() {
-    if (timeoutId !== null) {
+    if (countdownInterval !== null) {
         output.innerText = "Release.";
         firstPress = true; 
         if (colorChangeEnabled) {
@@ -115,9 +113,7 @@ function stopAndReset() {
 
 }
 
-
 // Wake lock logic
-
 const screenWake = document.getElementById("screenWake");
 
 let isSupported = false;
@@ -150,14 +146,52 @@ screenWake.addEventListener("click", async () =>{
     }
 })
 
+// Cookie and functions required for traffic count (once per day);
+let lastFetchCall = "";
 
-// Traffic
-const request = new Request("https://server.sgambapps.com/?site=stretch-hold-timers", {
+document.addEventListener("DOMContentLoaded", () => {
+    const lf = getCookie("lastFetch");
+    lastFetchCall = lf !== "" ? parseInt(lf) : "";
+
+    makeTrafficCall();
+})
+
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value};${expires};path=/`;
+}
+
+
+function getCookie(name) {
+    try {
+        const value = document.cookie.split(`${name}=`)[1].split(";")[0];
+        return value;
+        } catch {
+            return "";
+        }
+}
+
+function makeTrafficCall() {
+    // Logic for fetch to only call once per day;
+    const time = new Date();
+    const DOTW = time.getDay();
+
+  // // Traffic
+    const request = new Request("https://server.sgambapps.com/?site=stretch-hold-timers", {
     method: "POST",
 });
-fetch(request)
-.then(res => {
-    if (res.ok) {
-    console.log("visit counted");
+if (lastFetchCall !== parseInt(DOTW)) {
+    fetch(request)
+    .then(res => {
+        if (res.ok) {
+        console.log("visit counted");
+        }
+    })
+    .catch(err => console.log(err));
+
+    setCookie("lastFetch", DOTW.toString(), 10000);
+    console.log("cookie set");
     }
-})
+}
