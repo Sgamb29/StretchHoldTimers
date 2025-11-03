@@ -12,6 +12,9 @@ let audioOpts = [chimes, ducks, drums];
 
 let timerGoOffTime = 0;
 
+let totalHoldSeconds = 0;
+updateTotal();
+
 for (opt of audioOpts) {
     opt.addEventListener("click", (e) => {
         currentAudio = e.target.value;
@@ -76,16 +79,25 @@ async function startTimer(sec) {
                     audio.src = currentAudio;
                     audio.play();
                 }
-
                 if (colorChangeEnabled) {
                     document.getElementById("container").style.background = "linear-gradient(45deg, green, white, green)";
                 }
-
+                totalHoldSeconds += sec;
+                updateTotal();
                 clearInterval(countdownInterval);
             }
         }, 1000);
 
     }
+}
+
+function updateTotal() {
+    const totalOutput = document.getElementById("total");
+    const mins = parseInt(totalHoldSeconds / 60);
+    const secs = totalHoldSeconds - mins * 60;
+    const timeStr = `Total hold time: ${mins}m ${secs}s`;
+    totalOutput.innerText = timeStr;
+
 }
 
 let extraTimersToggle = document.getElementById("extraTimersToggle");

@@ -90,3 +90,8 @@ button {
     margin-top: 5px;
     
 }
+
+#total {
+    margin-top: 0px;
+    text-decoration: underline;
+}
