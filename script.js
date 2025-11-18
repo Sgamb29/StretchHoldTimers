@@ -203,7 +203,7 @@ if (lastFetchCall !== parseInt(DOTW)) {
     })
     .catch(err => console.log(err));
 
-    setCookie("lastFetch", DOTW.toString(), 10000);
+    setCookie("lastFetch", DOTW.toString(), 2);
     console.log("cookie set");
     }
 }
