@@ -53,7 +53,7 @@ async function startTimer(sec) {
         firstPress = false;
         let minorsec = sec > 60 ? "Minute" : "Second";
         let minutes = sec > 60 ? sec / 60 : sec;
-        output.innerText = `${minutes} ${minorsec} Timer Started.`;
+        output.innerText = `${minutes} ${minorsec} Timer`;
 
         // Setting up audioElement for ios
         const audio = new Audio();
@@ -107,8 +107,6 @@ extraTimersToggle.addEventListener("click", () => {
         for (let i = 0; i < els.length; i++) {
             els[i].hidden = !els[i].hidden;
         }
-        
-    
 })
 
 function stopAndReset() {
@@ -116,7 +114,7 @@ function stopAndReset() {
         output.innerText = "Release.";
         firstPress = true; 
         if (colorChangeEnabled) {
-            document.getElementById("container").style.backgroundColor = "lightgreen";
+            document.getElementById("container").style.background = "linear-gradient(45deg, grey, white, grey)";
         }
         countdownOutput.innerText = "";
         clearInterval(countdownInterval);
@@ -155,6 +153,13 @@ screenWake.addEventListener("click", async () =>{
             wakeLock = null;
             wakeLabel.innerText = "Keep Screen Awake";
           });
+    }
+})
+
+// Reset wake lock if navigated away and back.
+document.addEventListener("visibilitychange", () => {
+    if (screenWake.checked) {
+        screenWake.click();
     }
 })
 
