@@ -8,36 +8,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>8 Minute Stretching Sequence</h1>
+        <h1>Stretching Sequence</h1>
         <a class="nav" href="index.html">Back to Stretch Timers</a>
         <div class="audioCheck">
             <input type="checkbox" id="audioToggle" name="audioToggle" checked />
             <label for="audioToggle">Audio</label>
-          </div>
+            <input type="checkbox" name="screenWake" id="screenWake">
+            <label id="wakeLabel" for="screenWake">Keep Screen Awake</label>
+        </div>
 
-          <fieldset id="lengthChoice">
-            <legend>Select Sequence Length</legend>
-            <div id="lengthOptions">
-            <input type="radio" id="fourMinute" name="lengthOpts" value="4" checked />
-            <label for="fourMinute">Four Minutes</label>
-            <input type="radio" id="eightMinute" name="lengthOpts" value="8" />
-            <label for="eightMinute">Eight Minutes</label>
-            </div>
-        </fieldset>
+        <div class="inputDiv">
+            <p>Rest Seconds:</p><input id="restSec" class="input bo-bg" type="number" value="5">
+            <p># Sets:</p><input id="numSets" class="input bo-bg" type="number" value="1">
+        </div>
+            <p><em>Input stretch seconds seperated by a dash ex: 20-30-60-90</em></p>
+        <div class="inputDiv">
+            <p>Stretch Seconds:</p><input id="holdSec" class="input bo-bg" type="text" placeholder="30-30-30">
+        </div>
 
-        <div>
-           
-            </div>
-      
-        <button id="autoPlayStartButton" onclick="autoplaySequence(0)" >Start Autoplay</button>
-        
-        <h2 id="output">Forward Fold 60 Seconds</h2>
-        <img src="./assets/photos/pexels-elina-fairytale-3822191.jpg" id="mainImage" />
+        <button id="startButton" onclick="startSequence()">Start</button>
+        <p class="bigOutput" id="indicator"></p>
+        <h2 class="bigOutput" id="output"></h2>
+        <br><br>
+        <button id="pauseButton" onclick="pause()">Pause</button>
+        <button onclick="reset()">Reset</button>
 
-        <p id="photographer"></p>
-        <a href="https://www.pexels.com">Photos provided by Pexels</a>
-
-        <p>Note: For the audio to work your browser must have audio permissions enabled.</p>
     </div>
 
 

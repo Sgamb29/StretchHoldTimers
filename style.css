@@ -95,3 +95,29 @@ button {
     margin-top: 0px;
     text-decoration: underline;
 }
+
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.input {
+    font-size: medium;
+    width: 15%;
+    margin: 5px;
+}
+
+#holdSec {
+    width: 50%;
+}
+
+.bo-bg {
+    border: solid 1px black;
+    background-color: white;
+    border-radius: 15%;
+}
+
+.bigOutput {
+    font-size: xx-large;
+}
