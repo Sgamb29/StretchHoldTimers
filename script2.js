@@ -132,43 +132,7 @@ class Countdown extends Clock {
     }
 
 }
-class Tone {
 
-    audioCtx;
-    osc;
-    sweepEnv;
-
-    initialize() {
-        this.audioCtx = new AudioContext();
-        this.osc = new OscillatorNode(this.audioCtx);
-        this.sweepEnv = new GainNode(this.audioCtx);
-    }
-
-    playHighTone() {
-        this.playSweep(680);
-
-    }
-
-    playLowTone() {
-        this.playSweep(340);
-
-    }
-
-    playSweep(freq) {
-        this.initialize(); 
-        this.osc.type = "sine";
-        this.osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
-        // this.osc.frequency.setValueAtTime(freq - 50, 0.3);
-
-        this.sweepEnv.gain.setValueAtTime(2, 0);
-        // this.sweepEnv.gain.linearRampToValueAtTime(1, .2);
-        this.sweepEnv.gain.linearRampToValueAtTime(0, .4);
-
-        this.osc.connect(this.sweepEnv).connect(this.audioCtx.destination)
-        this.osc.start(0);
-        this.osc.stop(1);
-    }
-}
 const audioToggle = document.getElementById("audioToggle");
 let audioEnabled = true;
 
@@ -176,7 +140,7 @@ audioToggle.addEventListener("click", (e) => {
     audioEnabled = audioToggle.checked ? true : false;
 })
 
-
+// Input, button and output variables
 const holdInput = document.getElementById("holdSec");
 const restInput = document.getElementById("restSec");
 const setInput = document.getElementById("numSets")
@@ -184,6 +148,8 @@ const startBtn = document.getElementById("startButton");
 const output = document.getElementById("output");
 const indicator = document.getElementById("indicator");
 
+
+// Main logic variables
 let numSets = 1;
 let sequence = [];
 let masterSequence = [];
@@ -194,18 +160,23 @@ let restSecs = 5;
 const timer = new Countdown();
 timer.setDisplayElement(output);
 timer.setEndFunction(nextStretch);
-const tone = new Tone();
+let audio = null;
+let highAudio = null;
 
-let isStretching = false;
-let alreadyStarted = false;
+let isStretching = false; // To check if rest time or stretch time
+let alreadyStarted = false; // To disable start button till sequence ends
 
+// Start button function
 function startSequence() {
     if (alreadyStarted) {
         return;
     }
     if (!updateValues()) {
+        // If input value errors return
         return;
     }
+    audio = new Audio("./assets/sinetone340.mp3");
+    highAudio = new Audio("./assets/sineTone680.mp3");
     timer.setSeconds(restSecs);
     timer.start();
     alreadyStarted = true;
@@ -221,12 +192,11 @@ function resetVariables() {
 }
 
 function nextStretch() {
-    if (audioEnabled) {
-        tone.playLowTone();
-
-    }
-    // Starting a stretch
+    // Starting a stretch if in rest period
     if (!isStretching) {
+        if (audioEnabled) {
+            audio.play();
+        }
         isStretching = true;
         timer.setSeconds(parseInt(masterSequence[index]));
         timer.start();
@@ -236,19 +206,25 @@ function nextStretch() {
         // Starting a rest - transitiion
         isStretching = false;
         index += 1;
-        // Finish sequence case
+        // Finished sequence case
         if (index === totalStreches) {
-            tone.playHighTone();
+            if (audioEnabled) {
+                highAudio.play();
+            }
             indicator.innerText = "Sequence finished.";
             resetVariables();
             return;
         }
+        // Start rest timer if rest secs > 0
         if (restSecs === 0) {
             nextStretch();
         } else {
+            if (audioEnabled) {
+                audio.play();
+            }
             timer.setSeconds(restSecs);
             timer.start()
-            indicator.innerText = "Rest - Transition.";
+            indicator.innerText = "Rest - Transition";
         }
     }
 }
@@ -284,9 +260,9 @@ function reset() {
     indicator.innerText = "";
 }
 
+// Checking for input errors
 function isValidInputs() {
-
-    // Set input checking
+    // Num sets input checking
     if (isNaN(parseInt(setInput.value))) {
         output.innerText = "Input error: sets input isn't a number.";
         return false;
@@ -295,7 +271,7 @@ function isValidInputs() {
         return false;
     }
 
-    // Rest input checking
+    // Rest secs input checking
     if (isNaN(parseInt(restInput.value))) {
         output.innerText = "Input error: rest seconds isn't a number.";
         return false;
@@ -318,6 +294,7 @@ function isValidInputs() {
     return true;
 }
 
+// Check for errors and update variables from inputs
 function updateValues() {
     const sequenceStr = holdInput.value;
     sequence = sequenceStr.split("-");
@@ -330,6 +307,7 @@ function updateValues() {
     return true;
 }
 
+// Add on hold times for extra sets
 function generateMaster() {
     for (let i = 0; i < numSets; i++) {
         sequence.forEach((el) => {
