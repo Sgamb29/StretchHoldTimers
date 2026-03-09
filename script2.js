@@ -140,6 +140,13 @@ audioToggle.addEventListener("click", (e) => {
     audioEnabled = audioToggle.checked ? true : false;
 })
 
+const saveToggle = document.getElementById("saveToggle");
+let saveEnabled = true;
+
+saveToggle.addEventListener("click", (e) => {
+    saveEnabled = saveToggle.checked ? true : false;
+})
+
 // Input, button and output variables
 const holdInput = document.getElementById("holdSec");
 const restInput = document.getElementById("restSec");
@@ -189,6 +196,8 @@ function resetVariables() {
     index = 0;
     sequence = [];
     masterSequence = [];
+    timer.needsResume = false;
+    document.getElementById("pauseButton").innerText = "Pause";
 }
 
 function nextStretch() {
@@ -264,30 +273,30 @@ function reset() {
 function isValidInputs() {
     // Num sets input checking
     if (isNaN(parseInt(setInput.value))) {
-        output.innerText = "Input error: sets input isn't a number.";
+        output.innerText = "Sets input isn't a number.";
         return false;
     } else if (parseInt(setInput.value) <= 0) {
-        output.innerText = "Input error: sets can't be 0.";
+        output.innerText = "Sets can't be 0.";
         return false;
     }
 
     // Rest secs input checking
     if (isNaN(parseInt(restInput.value))) {
-        output.innerText = "Input error: rest seconds isn't a number.";
+        output.innerText = "Rest seconds isn't a number.";
         return false;
     } else if (parseInt(restInput.value) < 0) {
-        output.innerText = "Input error: rest seconds has to be 0 or more."
+        output.innerText = "Rest seconds has to be 0 or more."
         return false;
     }
 
     // Sequence input checking
     if (holdInput.value === "") {
-        output.innerText = "Input error: sequence stretch times empty.";
+        output.innerText = "Sequence stretch times empty.";
         return false;
     }
 
     if (!isValidSequence(sequence)) {
-        output.innertext = "Input error: stretch seconds aren't in the right format.";
+        output.innerText = "Incorrect stretch seconds format.";
         return false;
     }
 
@@ -304,6 +313,9 @@ function updateValues() {
     numSets = parseInt(setInput.value);
     restSecs = parseInt(restInput.value);
     generateMaster();
+    if (saveEnabled) {
+        saveSequence();
+    }
     return true;
 }
 
@@ -357,3 +369,52 @@ document.addEventListener("visibilitychange", () => {
         screenWake.click();
     }
 })
+
+// COOKIE logic for data saving.
+const rKey = "stretchRestSec";
+const sKey = "stretchSetsNum";
+const seqKey = "stretchSequence";
+
+function saveSequence() {
+    const d = 365;
+    const r = restSecs.toString();
+    const s = numSets.toString();
+    const seq = sequence.join("-");
+    setCookie(rKey, r, d);
+    setCookie(sKey, s, d);
+    setCookie(seqKey, seq, d);
+}
+
+function loadSave() {
+    const r = getCookie(rKey);
+    const s = getCookie(sKey);
+    const seq = getCookie(seqKey);
+    if (r === "" || s === "" || seq === "") {
+        return;
+    } else {
+        restInput.value = r;
+        setInput.value = s;
+        holdInput.value = seq;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadSave();
+})
+
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value};${expires};path=/`;
+}
+
+
+function getCookie(name) {
+    try {
+        const value = document.cookie.split(`${name}=`)[1].split(";")[0];
+        return value;
+        } catch {
+            return "";
+        }
+}
