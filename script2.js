@@ -430,6 +430,7 @@ function shouldFetch() {
     const DOTW = time.getDay();
     let lf = getCookie(lastFetchKey);
     if (lf === "" || parseInt(lf) !== parseInt(DOTW)) {
+        setCookie(lastFetchKey, DOTW.toString(), 2);
         return true;
     }
     return false;
@@ -443,9 +444,7 @@ function makeTrafficCall() {
     fetch(request)
     .then(res => {
         if (res.ok) {
-            console.log("visit counted");
         }
     })
     .catch(err => console.log(err));
-    setCookie(lastFetchKey, DOTW.toString(), 2);
 }
