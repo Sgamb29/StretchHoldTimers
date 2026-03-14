@@ -400,6 +400,9 @@ function loadSave() {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadSave();
+    if (shouldFetch()) {
+        makeTrafficCall();
+    }
 })
 
 function setCookie(name, value, days) {
@@ -417,4 +420,32 @@ function getCookie(name) {
         } catch {
             return "";
         }
+}
+
+// Traffic counter logic
+const lastFetchKey = "lastSequenceFetch";
+
+function shouldFetch() {
+    const time = new Date();
+    const DOTW = time.getDay();
+    let lf = getCookie(lastFetchKey);
+    if (lf === "" || parseInt(lf) !== parseInt(DOTW)) {
+        return true;
+    }
+    return false;
+}
+
+function makeTrafficCall() {
+    // Traffic
+    const request = new Request("https://server.sgambapps.com/?site=sequence-stretch", {
+    method: "POST",
+    });
+    fetch(request)
+    .then(res => {
+        if (res.ok) {
+            console.log("visit counted");
+        }
+    })
+    .catch(err => console.log(err));
+    setCookie(lastFetchKey, DOTW.toString(), 2);
 }
