@@ -375,27 +375,84 @@ const rKey = "stretchRestSec";
 const sKey = "stretchSetsNum";
 const seqKey = "stretchSequence";
 
+// Variables for 2nd save slot
+const rBKey = "stretchBRestSec";
+const sBKey = "stretchBSetsNum";
+const seqBKey = "stretchBSequence";
+
+let currentSaveSlot = "A";
+
 function saveSequence() {
     const d = 365;
     const r = restSecs.toString();
     const s = numSets.toString();
     const seq = sequence.join("-");
-    setCookie(rKey, r, d);
-    setCookie(sKey, s, d);
-    setCookie(seqKey, seq, d);
+    if (currentSaveSlot === "A") {
+        setCookie(rKey, r, d);
+        setCookie(sKey, s, d);
+        setCookie(seqKey, seq, d);
+    } else if (currentSaveSlot === "B") {
+        setCookie(rBKey, r, d);
+        setCookie(sBKey, s, d);
+        setCookie(seqBKey, seq, d);
+    }
 }
 
 function loadSave() {
-    const r = getCookie(rKey);
-    const s = getCookie(sKey);
-    const seq = getCookie(seqKey);
+    // Get the correct keys to use for current save slot
+    let rK;
+    let sK;
+    let seqK;
+    switch (currentSaveSlot) {
+        case "A":
+            rK = rKey;
+            sK = sKey;
+            seqK = seqKey;
+            break;
+        case "B":
+            rK = rBKey;
+            sK = sBKey;
+            seqK = seqBKey;
+            break;
+        default:
+            rK = rKey;
+            sK = sKey;
+            seqK = seqKey;
+            break;
+    }
+    const r = getCookie(rK);
+    const s = getCookie(sK);
+    const seq = getCookie(seqK);
     if (r === "" || s === "" || seq === "") {
+        // Reseting values to default if switched to different empty slot
+        restInput.value = "5";
+        setInput.value = "1";
+        holdInput.value = "";
         return;
     } else {
         restInput.value = r;
         setInput.value = s;
         holdInput.value = seq;
     }
+}
+
+// Initial color set for save slot
+document.getElementById("saveSlotA").style.backgroundColor = "green";
+
+function switchSave() {
+    const slotA = document.getElementById("saveSlotA");
+    const slotB = document.getElementById("saveSlotB");
+    // Switch the slot and indicate with color
+    if (currentSaveSlot === "A") {
+        currentSaveSlot = "B";
+        slotB.style.backgroundColor = "green";
+        slotA.style.backgroundColor = "darkSlateGrey";
+    } else {
+        currentSaveSlot = "A";
+        slotA.style.backgroundColor = "green";
+        slotB.style.backgroundColor = "darkSlateGrey";
+    }
+    loadSave();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

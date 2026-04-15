@@ -102,6 +102,17 @@ button {
     justify-content: center;
 }
 
+.smallOption {
+    font-size: large;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 2px;
+}
+
+.noBotMargin {
+    margin-bottom: 0px;
+}
+
 .input {
     font-size: medium;
     width: 15%;
