@@ -20,6 +20,8 @@
         <div class="audioCheck">
             <input type="checkbox" id="saveToggle" name="saveToggle" checked />
             <label for="saveToggle">Save sequence</label>
+            <input type="checkbox" id="restSoundToggle" name="restSoundToggle" checked />
+            <label for="restSoundToggle">Rest end audio</label>
         </div>
 
         <div class="inputDiv">
@@ -31,12 +33,13 @@
             <button id="saveSlotA" class="smallOption" onclick="switchSave()">A</button>
             <button id="saveSlotB" class="smallOption" onclick="switchSave()">B</button>
         </div>
-            <p><em>Input seconds for each stretch seperated by a dash ex: 20-60-30-20</em></p>
+            <p><em>Input seconds for each stretch in one set seperated by a dash ex: 20-60-30-20 or single number ex: 30</em></p>
         <div class="inputDiv">
             <p>Stretch Seconds:</p><input id="holdSec" class="input bo-bg" type="text" placeholder="30-30-30">
         </div>
-
+        <p id="totalTimeOutput"></p>
         <button id="startButton" onclick="startSequence()">Start</button>
+        <p id="stopwatchOutput"></p>
         <p class="bigOutput" id="indicator"></p>
         <h2 class="bigOutput" id="output"></h2>
         <br><br>

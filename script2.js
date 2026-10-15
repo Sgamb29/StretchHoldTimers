@@ -102,16 +102,18 @@ class Countdown extends Clock {
     }
 
     start() {
-        // if (this.intervalId !== null) {
-        //     this.printError();
-        //     return;
-        // }
         let currentSecs;
         // Resume case
-        currentSecs = this.needsResume ? this.countdownState : this.countdownSeconds;
-        // 
+        if (this.needsResume && this.countdownState > 0) {
+            currentSecs = this.countdownState;
+        } else {
+            currentSecs = this.countdownSeconds;
+            // console.log("countsecs", this.countdownSeconds);
+        }
+        // console.log(currentSecs);
         this.display(currentSecs);
-        this.countDownState = currentSecs;
+
+        // console.log("state", this.countdownState);
         this.intervalId = setInterval(() => {
             currentSecs -= 1;
             this.countdownState = currentSecs;
@@ -133,6 +135,29 @@ class Countdown extends Clock {
 
 }
 
+class Stopwatch extends Clock {
+    seconds = 0;
+    currentSetting = "stopwatch";
+
+    start() {
+        if (this.intervalId !== null) {
+            this.printError();
+            return;
+        }
+        this.display(this.seconds);
+        this.intervalId = setInterval(() => {
+            this.seconds += 1;
+            this.display(this.seconds);
+        }, this.msInterval);
+    }
+
+    reset() {
+        this.stop();
+        this.seconds = 0;
+        this.display();
+    }
+}
+
 const audioToggle = document.getElementById("audioToggle");
 let audioEnabled = true;
 
@@ -147,6 +172,14 @@ saveToggle.addEventListener("click", (e) => {
     saveEnabled = saveToggle.checked ? true : false;
 })
 
+const restSoundToggle = document.getElementById("restSoundToggle");
+let playRestEndSound = true;
+restSoundToggle.addEventListener("click", () => {
+    playRestEndSound = restSoundToggle.checked;
+})
+
+
+
 // Input, button and output variables
 const holdInput = document.getElementById("holdSec");
 const restInput = document.getElementById("restSec");
@@ -154,6 +187,7 @@ const setInput = document.getElementById("numSets")
 const startBtn = document.getElementById("startButton");
 const output = document.getElementById("output");
 const indicator = document.getElementById("indicator");
+const totalTimeOutput = document.getElementById("totalTimeOutput");
 
 
 // Main logic variables
@@ -167,6 +201,10 @@ let restSecs = 5;
 const timer = new Countdown();
 timer.setDisplayElement(output);
 timer.setEndFunction(nextStretch);
+
+const stopwatch = new Stopwatch();
+stopwatch.setDisplayElement(document.getElementById("stopwatchOutput"));
+
 let audio = null;
 let highAudio = null;
 
@@ -184,8 +222,11 @@ function startSequence() {
     }
     audio = new Audio("./assets/sinetone340.mp3");
     highAudio = new Audio("./assets/sineTone680.mp3");
-    timer.setSeconds(restSecs);
+    // Setting initial start to 5 seconds in case people have long restSecs
+    timer.setSeconds(5);
     timer.start();
+    stopwatch.reset();
+    stopwatch.start();
     alreadyStarted = true;
     indicator.innerText = "Get ready.";
 }
@@ -198,12 +239,14 @@ function resetVariables() {
     masterSequence = [];
     timer.needsResume = false;
     document.getElementById("pauseButton").innerText = "Pause";
+    stopwatch.stop();
 }
 
 function nextStretch() {
     // Starting a stretch if in rest period
     if (!isStretching) {
-        if (audioEnabled) {
+        // For playing audio at end of rest period or if first stretch start.
+        if ((audioEnabled && playRestEndSound) || (audioEnabled && indicator.innerText === "Get ready.")) {
             audio.play();
         }
         isStretching = true;
@@ -226,6 +269,7 @@ function nextStretch() {
         }
         // Start rest timer if rest secs > 0
         if (restSecs === 0) {
+            console.log(restSecs);
             nextStretch();
         } else {
             if (audioEnabled) {
@@ -255,10 +299,12 @@ function pause() {
     }
     if (timer.needsResume) {
         timer.resume();
+        stopwatch.resume();
         pauseButton.innerText = "Pause";
     } else {
         timer.pause();
         pauseButton.innerText = "Resume";
+        stopwatch.pause();
     }
 }
 
@@ -328,6 +374,19 @@ function generateMaster() {
     }
     totalStreches = masterSequence.length;
 }
+
+// function updateTotalTimeOutput(seshSecs=0) {
+//     let totalSeconds = 0;
+//     masterSequence.forEach((s) => {
+//         totalSeconds += parseInt(s);
+//     });
+//     console.log(restSecs * masterSequence.length)
+//     totalSeconds += restSecs * masterSequence.length;
+//     console.log(totalSeconds)
+//     let minutes = totalSeconds > 60 ? Math.round(totalSeconds/60) : 0;
+//     let seconds = totalSeconds - minutes * 60;
+//     totalTimeOutput.innerText = `Sequence total: ${minutes}m ${seconds}s `;
+// }
 
 
 // Wake lock logic
